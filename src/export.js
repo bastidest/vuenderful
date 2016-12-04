@@ -1,5 +1,11 @@
-import Vuenderful from './Vuenderful.vue'
+import Select from './Vuenderful.vue'
 
-export default {
-    Vuenderful
+const Vuenderful = {
+    Select,
+
+    install (Vue) {
+        Vue.component('v-select', Select);
+    }
 }
+
+module.exports = Vuenderful;

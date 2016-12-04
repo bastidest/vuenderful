@@ -46,6 +46,13 @@ module.exports = {
 if (process.env.NODE_ENV === 'production') {
   module.exports.entry = './src/export.js'
   module.exports.devtool = '#source-map'
+  module.exports.output = {
+    path: path.resolve(__dirname, './dist'),
+    publicPath: '/dist/',
+    filename: 'vuenderful.js',
+    library: 'Vuenderful',
+    libraryTarget: 'umd'
+  }
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
