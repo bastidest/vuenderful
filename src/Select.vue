@@ -198,6 +198,7 @@ $selected: #f5f5f5
     width: 10px
     height: 28px
     -webkit-appearance: textfield
+    background: none
 
   .v-tags-tag
     display: inline-flex
@@ -207,7 +208,7 @@ $selected: #f5f5f5
     margin: 2px 4px 2px 0
     border: 1px solid #D1D1D1
     border-radius: 4px
-    height: 22px
+    height: 24px
 
     span
       font-size: 14px
@@ -238,6 +239,7 @@ $selected: #f5f5f5
     overflow-x: hidden
     overflow-y: scroll
     max-height: 200px
+    box-sizing: border-box
 
     &::-webkit-scrollbar
       width: 6px
@@ -257,8 +259,9 @@ $selected: #f5f5f5
       margin: 0
       border-bottom: 1px solid $border
       line-height: 24px
-      height: 24px
+      height: 34px
       list-style: none
+      box-sizing: border-box
 
       &.selected
         background-color: $selected
