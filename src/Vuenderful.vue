@@ -36,6 +36,7 @@ export default {
   },
   computed: {
     choices: function() {
+      console.log(this.all);
       return this.all.diff(this.selected).filter(function (element, index, array) {
         return this.inputText == '' || element.toUpperCase().includes(this.inputText.toUpperCase());
       }, this);
