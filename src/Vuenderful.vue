@@ -21,7 +21,7 @@ Array.prototype.diff = function(a) {
 export default {
   name: 'app',
   props: {
-    all: {
+    options: {
       type: Array,
       default: []
     },
@@ -37,7 +37,7 @@ export default {
       }
     }
   },
-  props: ["all", "selected", "vtype"],
+  props: ["options", "selected", "vtype"],
   data () {
     return {
       inputText: '',
@@ -51,8 +51,7 @@ export default {
   },
   computed: {
     choices: function() {
-      console.log(this.all);
-      return this.all.diff(this.selected).filter(function (element, index, array) {
+      return this.options.diff(this.selected).filter(function (element, index, array) {
         return this.inputText == '' || element.toUpperCase().includes(this.inputText.toUpperCase());
       }, this);
     }

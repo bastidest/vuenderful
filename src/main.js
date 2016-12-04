@@ -7,8 +7,8 @@ var app = new Vue({
   el: '#app',
   data () {
     return {
-      all: ['One', 'Two'],
-      selected: ['Me']
+      options: ['One', 'Two'],
+      selected: ['One']
     }
   },
   methods: {
