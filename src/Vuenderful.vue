@@ -1,14 +1,14 @@
 <template>
 <div class="vuenderful">
   <div ref="box" class="v-tags" @mousedown="focus"  :class="{ dropped: showDropdown }">
-    <div class="v-tags-tag" v-for="tag in selected" @click="removeTag(tag, $event)">
+    <div v-if="vtype != 'single'" class="v-tags-tag" v-for="tag in selected" @click="removeTag(tag, $event)">
       <span>{{ tag }}</span>
     </div>
     <input ref="input" type="text" @focus="focus" @blur="destroyPopup" v-model="inputText" @keydown.enter="onEnter"
-      @keydown.esc="onEsc" @keydown.down="onDown" @keydown.up="onUp" @keydown.tab="onTab"
-      onkeypress="this.style.width = ((this.value.length + 2) * 10) + 'px';">
+      @keydown.esc="onEsc" @keydown.down="onDown" @keydown.up="onUp" @keydown.tab="onTab">
+    <div v-if="vtype == 'single'" class="arrowdown"></div>
   </div>
-  <div class="v-dropdown" v-if="showDropdown" :class="{ hidden: choices.length == 0 }" :style="style">
+  <div class="v-dropdown" v-if="showDropdown" :style="style">
     <ul ref="dropdown"><li v-for="(tag, index) in choices" @mousedown="addTag(tag, $event)" :class="{ selected: index == markedIndex }">{{ tag }}</li></ul>
   </div>
 <div>
@@ -20,11 +20,26 @@ Array.prototype.diff = function(a) {
 };
 export default {
   name: 'app',
-  props: ["all", "selected"],
+  props: {
+    all: {
+      type: Array,
+      default: []
+    },
+    selected: {
+      type: Array,
+      default: []
+    },
+    vtype: {
+      type: String,
+      required: true,
+      validator (val) {
+        return val == 'single' || val == 'multi';
+      }
+    }
+  },
+  props: ["all", "selected", "vtype"],
   data () {
     return {
-      /*all: ['Peter', 'Maria', 'Eva'],*/
-      /*selected: ['test', 'peter'],*/
       inputText: '',
       markedIndex: 0,
       style: '',
@@ -42,6 +57,11 @@ export default {
       }, this);
     }
   },
+  watch: {
+    inputText (text) {
+      this.$refs.input.style.width = ((text.length + 2) * 10) + 'px';
+    }
+  },
   methods: {
     addSelected: function() {
       if(this.inputText == '')
@@ -54,15 +74,20 @@ export default {
       return true;
     },
     addTag: function(tagname, event) {
-      if(event != null)
-        event.preventDefault();
-      // if tag does not exist in selected tag list
-      if(this.selected.indexOf(tagname) === -1)
-        var i = this.selected.push(tagname.trim()) - 1;
-      this.inputText = '';
-      if(this.choices.length == 0)
+      if(this.vtype == "single") {
+        this.inputText = tagname;
         this.destroyPopup();
-      this.$refs.input.focus();
+      } else {
+        if(event != null)
+          event.preventDefault();
+        // if tag does not exist in selected tag list
+        if(this.selected.indexOf(tagname) === -1)
+          var i = this.selected.push(tagname.trim()) - 1;
+        this.inputText = '';
+        if(this.choices.length == 0)
+          this.destroyPopup();
+        this.$refs.input.focus();
+      }
     },
     onEnter: function(){
       if(this.choices.length > 0) {
@@ -73,8 +98,12 @@ export default {
       }
     },
     onTab: function(e){
-      if(this.addSelected() && e != undefined)
-        e.preventDefault();
+      if(this.vtype == "single") {
+
+      } else {
+        if(this.addSelected() && e != undefined)
+          e.preventDefault();
+      }
     },
     onEsc: function(){
       this.$refs.input.blur();
@@ -143,6 +172,16 @@ $selected: #f5f5f5
   line-height: 1.6
   position: relative
 
+  .arrowdown
+    width: 0
+    height: 0
+    border-left: 5px solid transparent
+    border-right: 5px solid transparent
+    border-top: 5px solid $secondary
+    position: absolute
+    right: 10px
+    top: 16px
+
   &.dropped
     border-radius: 4px 4px 0 0
 
@@ -189,9 +228,6 @@ $selected: #f5f5f5
   overflow: hidden
   z-index: 10
   margin-top: -1px
-
-  &.hidden
-    display: none
 
   ul
     padding: 0
