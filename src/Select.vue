@@ -156,6 +156,7 @@ $selected: #f5f5f5
 .vuenderful
   margin-bottom: 10px
   box-sizing: border-box
+  text-align: left
 
 .v-tags
   display: block
@@ -180,6 +181,9 @@ $selected: #f5f5f5
     position: absolute
     right: 10px
     top: 16px
+
+    &:hover
+      cursor: pointer
 
   &.dropped
     border-radius: 4px 4px 0 0

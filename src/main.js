@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import Vuenderful from './Vuenderful.vue'
+import Select from './Select.vue'
 
-var MySelect = Vue.component('v-select', Vuenderful);
+var MySelect = Vue.component('v-select', Select);
 
 var app = new Vue({
   el: '#app',

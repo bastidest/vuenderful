@@ -1,4 +1,4 @@
-import Select from './Vuenderful.vue'
+import Select from './Select.vue'
 
 const Vuenderful = {
     Select,
